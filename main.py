@@ -10,7 +10,7 @@ API_KEY = "27c2007344ae038775e22cf529e7a03"
 url = "https://v3.football.api-sports.io/fixtures"
 headers = {"x-rapidapi-key": API_KEY, "x-rapidapi-host": "v3.football.api-sports.io"}
 
-# Yazın devam eden liglerin ID'lerini ekledik
+# Canlı ligler
 lig_idleri = ["71", "253", "188", "103"]
 
 secilen_tarih = st.date_input("Tarih Seçin", datetime.today())
@@ -24,6 +24,7 @@ if st.button("🚀 Canlı Ligleri Analiz Et"):
         response = requests.get(url, headers=headers, params=querystring)
         data = response.json()
         
+        # Eğer veri gelmiyorsa API'nin ne dediğini görelim
         if "response" in data and len(data['response']) > 0:
             for match in data['response']:
                 durum = match['fixture']['status']['short']
@@ -35,9 +36,11 @@ if st.button("🚀 Canlı Ligleri Analiz Et"):
                         "AI Tahmin": "MS 1" if len(match['teams']['home']['name']) % 2 == 0 else "MS 2",
                         "Güven": "%82"
                     })
+        else:
+            st.write(f"Lig ID {lig} için bu tarihte maç bulunamadı.")
     
     if tum_maclar:
         df = pd.DataFrame(tum_maclar)
-        st.dataframe(df, use_container_width=True, hide_index=True)
+        st.dataframe(df, width=1500)
     else:
-        st.info("Bu liglerde bugün maç bulunamadı. Lütfen başka bir gün deneyin.")
+        st.info("⚠️ Bugün seçili liglerde maç yok. Lütfen tarih kısmından yarını veya sonraki günleri seçip tekrar dene.")
