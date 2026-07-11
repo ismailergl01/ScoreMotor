@@ -7,7 +7,7 @@ st.set_page_config(page_title="Score Motor", layout="wide")
 st.title("⚽ API Anahtarını Temizleyerek Test Et")
 
 # Boşlukları temizleyen .strip() ekledik
-RAW_KEY = " 27c2007344ae038775e22cf529e7a03 "
+RAW_KEY = "96805f1e5e0037781da5aeb07471a64e"
 API_KEY = RAW_KEY.strip()
 
 url = "https://v3.football.api-sports.io/fixtures"
