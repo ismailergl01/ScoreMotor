@@ -4,24 +4,21 @@ import pandas as pd
 from datetime import datetime
 
 st.set_page_config(page_title="Score Motor", layout="wide")
-st.title("⚽ Score Motor - API Bağlantı Testi")
+st.title("⚽ API Anahtarını Temizleyerek Test Et")
 
-# API Anahtarını en güvenli şekilde tanımlıyoruz
-API_KEY = "27c2007344ae038775e22cf529e7a03"
+# Boşlukları temizleyen .strip() ekledik
+RAW_KEY = " 27c2007344ae038775e22cf529e7a03 "
+API_KEY = RAW_KEY.strip()
+
 url = "https://v3.football.api-sports.io/fixtures"
 headers = {
     "x-rapidapi-key": API_KEY,
     "x-rapidapi-host": "v3.football.api-sports.io"
 }
 
-secilen_tarih = st.date_input("Tarih Seçin", datetime.today())
-tarih_str = secilen_tarih.strftime("%Y-%m-%d")
-
-if st.button("🚀 Sorgula"):
-    # 188 numaralı lig için doğrudan sorgu
-    querystring = {"date": tarih_str, "league": "188", "season": "2026"}
+if st.button("🚀 Temizlenmiş Anahtarla Test Et"):
+    querystring = {"date": "2026-07-12", "league": "188", "season": "2026"}
     response = requests.get(url, headers=headers, params=querystring)
     
-    st.write("Bağlantı Durumu:", response.status_code)
-    data = response.json()
-    st.write(data)
+    st.write("Status Code:", response.status_code)
+    st.write("Gelen Veri:", response.json())
