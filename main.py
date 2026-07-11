@@ -1,24 +1,22 @@
 import streamlit as st
 import requests
 import pandas as pd
-from datetime import datetime
 
 st.set_page_config(page_title="Score Motor", layout="wide")
-st.title("⚽ API Anahtarını Temizleyerek Test Et")
+st.title("⚽ Geçmiş Sezon Testi (2024)")
 
-# Boşlukları temizleyen .strip() ekledik
-RAW_KEY = "96805f1e5e0037781da5aeb07471a64e"
-API_KEY = RAW_KEY.strip()
-
+API_KEY = "96805f1e5e0037781da5aeb07471a64e"
 url = "https://v3.football.api-sports.io/fixtures"
 headers = {
     "x-rapidapi-key": API_KEY,
     "x-rapidapi-host": "v3.football.api-sports.io"
 }
 
-if st.button("🚀 Temizlenmiş Anahtarla Test Et"):
-    querystring = {"date": "2026-07-12", "league": "188", "season": "2026"}
+if st.button("🚀 2024 Sezonundan Maç Çek"):
+    # API'nin izin verdiği 2024 sezonunu kullanıyoruz
+    querystring = {"date": "2024-07-12", "league": "188", "season": "2024"}
     response = requests.get(url, headers=headers, params=querystring)
     
     st.write("Status Code:", response.status_code)
-    st.write("Gelen Veri:", response.json())
+    data = response.json()
+    st.write(data)
